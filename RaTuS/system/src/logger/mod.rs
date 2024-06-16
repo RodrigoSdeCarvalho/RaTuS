@@ -1,5 +1,4 @@
 mod debug;
-mod production;
 
 use super::config::{Configs, Profile, get_process_name};
 use chrono::Local as time;
