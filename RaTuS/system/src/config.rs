@@ -12,12 +12,12 @@ lazy_static::lazy_static! {
     pub static ref PROCESS_NAME: Mutex<String> = Mutex::new(String::from("RaTuS"));
 }
 
-pub(crate) fn set_process_name<T: AsRef<str>>(name: T) {
+pub fn set_process_name<T: AsRef<str>>(name: T) {
     let mut process_name = PROCESS_NAME.lock().unwrap();
     *process_name = name.as_ref().to_string();
 }
 
-pub(crate) fn get_process_name() -> String {
+pub fn get_process_name() -> String {
     let process_name = PROCESS_NAME.lock().unwrap();
     process_name.clone()
 }
