@@ -2,7 +2,6 @@
 pub enum Error {
     TupleSpace(tuple_space::error::Error),
     OneShotRecv(tokio::sync::oneshot::error::RecvError),
-    ConfigEmpty,
     TomlDe(toml::de::Error),
     Io(std::io::Error),
 }

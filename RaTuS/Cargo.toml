@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "ratus",
     "tuple_space",
     "system",
     "client",
