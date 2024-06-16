@@ -3,7 +3,7 @@ use std::io::Write;
 use chrono::Local as time;
 
 use super::{ILogger, LoggerEssentials};
-use crate::path::{SysPath, Path, join_root};
+use crate::{config::get_process_name, path::{join_root, Path, SysPath}};
 
 /// Logger for development purposes. This Logger will save the logs in a .txt file.
 pub(super) struct DebugLogger {
@@ -20,7 +20,7 @@ impl LoggerEssentials for DebugLogger {
 
         return DebugLogger {
             folder,
-            file_name: format!("log_{}.txt", timestamp),
+            file_name: format!("{}_log_{}.txt", get_process_name(), timestamp),
         };
     }
 

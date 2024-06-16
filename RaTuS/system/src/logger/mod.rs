@@ -1,7 +1,7 @@
 mod debug;
 mod production;
 
-use super::config::{Configs, Profile};
+use super::config::{Configs, Profile, get_process_name};
 use chrono::Local as time;
 
 use debug::DebugLogger;
@@ -47,7 +47,12 @@ macro_rules! log_level {
 
             if should_log {
                 let timestamp = time::now().format("%Y-%m-%d %H:%M:%S").to_string();
-                let message = format!("[{:?}] {} - {}", stringify!($log_level).to_uppercase(), timestamp, message.as_ref());
+                let message = format!("{}::[{:?}] {} - {}",
+                    get_process_name(),
+                    stringify!($log_level).to_uppercase(), 
+                    timestamp, 
+                    message.as_ref()
+                );
                 if save { logger.save(&message); }
 
                 if show {
@@ -74,10 +79,12 @@ trait LoggerEssentials where Self: Sized {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::config::set_process_name;
 
     // Make sure log is on and save is true (adjust the system/configs.json file)
     #[test]
     fn test_logger() {
+        set_process_name("Test");
         Logger::info("Test info message", true);
         Logger::trace("Test trace message".to_string(), true);
         Logger::warn(&"Test warning message".to_string(), true);
