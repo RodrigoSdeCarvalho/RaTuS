@@ -17,14 +17,12 @@ pub(crate) struct Config {
 #[derive(Debug, PartialEq, Serialize, Deserialize, Copy, Clone)]
 pub(crate) enum Profile {
     DEBUG,
-    PRODUCTION
 }
 
 impl Profile {
     fn from_string(input: &String) -> Profile {
         match input.as_str() {
             "DEBUG" => Profile::DEBUG,
-            "PRODUCTION" => Profile::PRODUCTION,
             _ => unreachable!("Invalid profile"), // CI/CD must enforce this with ENV vars
         }
     }
@@ -77,8 +75,7 @@ mod tests {
     #[test]
     fn test_config() {
         let config = Config::open().lock().unwrap();
-        let prof_works: bool = (config.profile() == Profile::DEBUG) ||
-                               (config.profile() == Profile::PRODUCTION);
+        let prof_works: bool = config.profile() == Profile::DEBUG;
         assert_eq!(prof_works, true);
     }
 }

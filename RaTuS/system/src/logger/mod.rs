@@ -5,7 +5,6 @@ use super::config::{Configs, Profile};
 use chrono::Local as time;
 
 use debug::DebugLogger;
-use production::ProductionLogger;
 
 macro_rules! log {
     ($log_level:ident) => {
@@ -17,7 +16,6 @@ macro_rules! log {
 
             match profile {
                 Profile::DEBUG => DebugLogger::$log_level(message, show),
-                Profile::PRODUCTION => ProductionLogger::$log_level(message, show)
             };
         }
     };
