@@ -3,6 +3,8 @@
 members = [
     "tuple_space",
     "system",
+    "client",
+    "server",
     "macros/benchmark_macro",
 ]
 
