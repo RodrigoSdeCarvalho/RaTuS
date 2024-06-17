@@ -6,10 +6,13 @@ use crate::command::Command;
 use crate::command_result::CommandResult;
 use crate::types::{CommandReceive, CommandSend};
 
-use ts_core::query_tuple::QueryTuple;
-use ts_core::store::Store;
-use ts_core::tuple::Tuple;
-use ts_core::vec_store::VecStore;
+use ts_core::{
+    query_tuple::QueryTuple,
+    store::Store,
+    tuple::Tuple,
+    vec_store::VecStore,
+    mutex_store::MutexStore,
+};
 
 use system::Logger;
 
@@ -17,24 +20,24 @@ pub(crate) fn spawn_tuple_space_handler(
     mut command_rx: CommandReceive,
 ) -> tokio::task::JoinHandle<()> {
     tokio::spawn(async move {
-        let mut tuple_store = VecStore::default();
+        let mut mutex_store = MutexStore::<VecStore>::default();
 
         while let Some((command, response)) = command_rx.recv().await {
             Logger::info(&format!("Command {:?} received", command), true);
             let command_result = match command {
-                Command::Size => match tuple_store.size() {
+                Command::Size => match mutex_store.size() {
                     Ok(size) => CommandResult::Size(size),
                     Err(error) => CommandResult::Error(error.into()),
                 },
-                Command::Write(tuple) => match tuple_store.write(&tuple) {
+                Command::Write(tuple) => match mutex_store.write(&tuple) {
                     Ok(()) => CommandResult::Write,
                     Err(error) => CommandResult::Error(error.into()),
                 },
-                Command::Read(query_tuple) => match tuple_store.read(&query_tuple) {
+                Command::Read(query_tuple) => match mutex_store.read(&query_tuple) {
                     Ok(tuple_option) => CommandResult::Read(tuple_option),
                     Err(error) => CommandResult::Error(error.into()),
                 },
-                Command::Get(query_tuple) => match tuple_store.get(&query_tuple) {
+                Command::Get(query_tuple) => match mutex_store.get(&query_tuple) {
                     Ok(tuple_option) => CommandResult::Get(tuple_option),
                     Err(error) => CommandResult::Error(error.into()),
                 },
