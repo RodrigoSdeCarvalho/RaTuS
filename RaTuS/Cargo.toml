@@ -2,10 +2,10 @@
 
 members = [
     "ratus",
-    "tuple_space",
+    "tuple_space/core",
+    "tuple_space/client",
+    "tuple_space/server",
     "system",
-    "client",
-    "server",
     "macros/benchmark_macro",
 ]
 

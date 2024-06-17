@@ -6,7 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tuple_space = { path = "../tuple_space" }
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
 serde = "1.0"
@@ -14,4 +13,5 @@ log = "0.4"
 env_logger = "0.11.3"
 clap = "2.21.1"
 toml = "0.8.13"
-system = { path = "../system"}
+tuple_space = { path = "../core" }
+system = { path = "../../system"}

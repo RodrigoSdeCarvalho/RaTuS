@@ -6,9 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tuple_space = { path = "../tuple_space" }
+tuple_space = { path = "../core" }
 reqwest = { version = "0.12.4", features = ["json"] }
 tokio = { version = "1", features = ["full"] }
 serde_json = "1"
 url = "2"
-system = { path = "../system"}
+system = { path = "../../system"}
