@@ -36,7 +36,7 @@ mod tests {
         let adder_thread: JoinHandle<Result<()>> = thread::spawn(move || {
             let adder_query_tuple = QueryTuple::builder().any_integer().any_integer().build();
             let sleep = time::Duration::from_millis(110);
-            while let Ok(Some(tuple)) = adder_mutex_store.take(&adder_query_tuple) {
+            while let Ok(Some(tuple)) = adder_mutex_store.get(&adder_query_tuple) {
                 if let (Types::Integer(num_1), Types::Integer(num_2)) = (&tuple[0], &tuple[1]) {
                     let sum_tuple = Tuple::builder().integer(num_1 + num_2).build();
                     adder_mutex_store.write(&sum_tuple)?;
@@ -49,7 +49,7 @@ mod tests {
         let printer_thread: JoinHandle<Result<()>> = thread::spawn(move || {
             let printer_query_tuple = QueryTuple::builder().any_integer().build();
             let sleep = time::Duration::from_millis(120);
-            while let Ok(Some(tuple)) = print_mutex_store.take(&printer_query_tuple) {
+            while let Ok(Some(tuple)) = print_mutex_store.get(&printer_query_tuple) {
                 if let Types::Integer(num) = &tuple[0] {
                     Logger::info(&format!("Printer: {}", num), true);
                 }

@@ -32,8 +32,8 @@ impl<S: Store> Store for MutexStore<S> {
         self.store.lock()?.read(query_tuple)
     }
 
-    fn take(&mut self, query_tuple: &QueryTuple) -> Result<Option<Tuple>> {
-        self.store.lock()?.take(query_tuple)
+    fn get(&mut self, query_tuple: &QueryTuple) -> Result<Option<Tuple>> {
+        self.store.lock()?.get(query_tuple)
     }
 }
 
@@ -67,21 +67,21 @@ fn test_mutex_store() -> Result<()> {
     let exact_query_tuple = QueryTuple::builder().integer(5).build();
     let wildcard_query_tuple = QueryTuple::builder().any_integer().build();
 
-    match tuple_space.take(&exact_query_tuple)? {
+    match tuple_space.get(&exact_query_tuple)? {
         Some(_tuple) => (),
         None => panic!("No tuple found"),
     }
 
     assert_eq!(1, tuple_space.size()?);
 
-    match tuple_space.take(&wildcard_query_tuple)? {
+    match tuple_space.get(&wildcard_query_tuple)? {
         Some(_tuple) => (),
         None => panic!("No tuple found"),
     }
 
     assert_eq!(0, tuple_space.size()?);
 
-    match tuple_space.take(&wildcard_query_tuple)? {
+    match tuple_space.get(&wildcard_query_tuple)? {
         Some(_tuple) => panic!("Tuple found"),
         None => (),
     }

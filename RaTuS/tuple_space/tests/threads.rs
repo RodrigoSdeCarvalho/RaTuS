@@ -61,7 +61,7 @@ mod tests {
             let query_tuple = QueryTuple::builder().any_integer().any_integer().build();
             let taker_sleep = time::Duration::from_millis(110);
     
-            while let Some(tuple) = taker_mutex_store.take(&query_tuple)? {
+            while let Some(tuple) = taker_mutex_store.get(&query_tuple)? {
                 Logger::info(&format!("Taker: Took: {:?}", tuple), true);
                 num_tuples += 1;
                 thread::sleep(taker_sleep);

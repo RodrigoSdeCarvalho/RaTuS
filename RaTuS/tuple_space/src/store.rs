@@ -6,5 +6,5 @@ pub trait Store: Default {
     fn size(&self) -> Result<usize>;
     fn write(&mut self, tuple: &Tuple) -> Result<()>;
     fn read(&self, query_tuple: &QueryTuple) -> Result<Option<Tuple>>;
-    fn take(&mut self, query_tuple: &QueryTuple) -> Result<Option<Tuple>>;
+    fn get(&mut self, query_tuple: &QueryTuple) -> Result<Option<Tuple>>;
 }

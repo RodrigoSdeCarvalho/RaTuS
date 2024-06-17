@@ -34,7 +34,7 @@ pub(crate) fn spawn_tuple_space_handler(
                     Ok(tuple_option) => CommandResult::Read(tuple_option),
                     Err(error) => CommandResult::Error(error.into()),
                 },
-                Command::Take(query_tuple) => match tuple_store.take(&query_tuple) {
+                Command::Take(query_tuple) => match tuple_store.get(&query_tuple) {
                     Ok(tuple_option) => CommandResult::Take(tuple_option),
                     Err(error) => CommandResult::Error(error.into()),
                 },

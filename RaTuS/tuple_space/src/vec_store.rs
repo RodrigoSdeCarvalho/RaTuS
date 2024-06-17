@@ -72,7 +72,7 @@ impl Store for VecStore {
         Ok(())
     }
 
-    fn take(&mut self, query_tuple: &QueryTuple) -> Result<Option<Tuple>> {
+    fn get(&mut self, query_tuple: &QueryTuple) -> Result<Option<Tuple>> {
         match self.index_of(query_tuple) {
             Some(index) => {
                 let tuple = self.inner[index].take();
@@ -129,7 +129,7 @@ fn test_vec_store() -> Result<()> {
     assert_eq!(2, tuple_store.size()?);
     assert_eq!(2, tuple_store.tuple_count());
 
-    match tuple_store.take(&QueryTuple::builder().integer(5).build())? {
+    match tuple_store.get(&QueryTuple::builder().integer(5).build())? {
         Some(_tuple) => (),
         None => panic!("No tuple found"),
     }
@@ -137,7 +137,7 @@ fn test_vec_store() -> Result<()> {
     assert_eq!(1, tuple_store.size()?);
     assert_eq!(1, tuple_store.tuple_count());
 
-    match tuple_store.take(&QueryTuple::builder().any_integer().build())? {
+    match tuple_store.get(&QueryTuple::builder().any_integer().build())? {
         Some(_tuple) => (),
         None => panic!("No tuple found"),
     }
@@ -145,7 +145,7 @@ fn test_vec_store() -> Result<()> {
     assert_eq!(0, tuple_store.size()?);
     assert_eq!(0, tuple_store.tuple_count());
 
-    match tuple_store.take(&QueryTuple::builder().any_integer().build())? {
+    match tuple_store.get(&QueryTuple::builder().any_integer().build())? {
         Some(_tuple) => panic!("Tuple found"),
         None => (),
     }
