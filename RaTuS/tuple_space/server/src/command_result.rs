@@ -1,5 +1,5 @@
 use crate::error::Error;
-use tuple_space::tuple::Tuple;
+use ts_core::tuple::Tuple;
 
 #[derive(Debug)]
 pub(crate) enum CommandResult {

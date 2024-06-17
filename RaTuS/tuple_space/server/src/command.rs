@@ -1,5 +1,5 @@
-use tuple_space::query_tuple::QueryTuple;
-use tuple_space::tuple::Tuple;
+use ts_core::query_tuple::QueryTuple;
+use ts_core::tuple::Tuple;
 
 #[derive(Debug)]
 pub(crate) enum Command {

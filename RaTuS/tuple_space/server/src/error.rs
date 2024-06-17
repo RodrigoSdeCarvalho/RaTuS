@@ -1,13 +1,13 @@
 #[derive(Debug)]
 pub enum Error {
-    TupleSpace(tuple_space::error::Error),
+    TupleSpace(ts_core::error::Error),
     OneShotRecv(tokio::sync::oneshot::error::RecvError),
     TomlDe(toml::de::Error),
     Io(std::io::Error),
 }
 
-impl From<tuple_space::error::Error> for Error {
-    fn from(error: tuple_space::error::Error) -> Self {
+impl From<ts_core::error::Error> for Error {
+    fn from(error: ts_core::error::Error) -> Self {
         Error::TupleSpace(error)
     }
 }

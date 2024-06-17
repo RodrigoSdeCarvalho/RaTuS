@@ -1,8 +1,8 @@
 use crate::error::Error;
 use crate::result::Result;
 use reqwest::{StatusCode, Url};
-use tuple_space::query_tuple::QueryTuple;
-use tuple_space::tuple::Tuple;
+use ts_core::query_tuple::QueryTuple;
+use ts_core::tuple::Tuple;
 
 pub struct Client {
     size_url: Url,

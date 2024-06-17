@@ -3,12 +3,12 @@ mod tests {
     use std::thread::JoinHandle;
     use std::{thread, time};
     
-    use tuple_space::mutex_store::MutexStore;
-    use tuple_space::query_tuple::QueryTuple;
-    use tuple_space::result::Result;
-    use tuple_space::store::Store;
-    use tuple_space::tuple::Tuple;
-    use tuple_space::vec_store::VecStore;
+    use ts_core::mutex_store::MutexStore;
+    use ts_core::query_tuple::QueryTuple;
+    use ts_core::result::Result;
+    use ts_core::store::Store;
+    use ts_core::tuple::Tuple;
+    use ts_core::vec_store::VecStore;
 
     use system::{Logger, set_process_name};
 

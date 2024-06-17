@@ -1,4 +1,4 @@
-use tuple_space::tuple::Tuple;
+use ts_core::tuple::Tuple;
 use ts_client::client::Client;
 
 use system::{Logger, set_process_name};

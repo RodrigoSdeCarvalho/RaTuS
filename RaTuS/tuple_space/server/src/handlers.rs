@@ -6,10 +6,10 @@ use crate::command::Command;
 use crate::command_result::CommandResult;
 use crate::types::{CommandReceive, CommandSend};
 
-use tuple_space::query_tuple::QueryTuple;
-use tuple_space::store::Store;
-use tuple_space::tuple::Tuple;
-use tuple_space::vec_store::VecStore;
+use ts_core::query_tuple::QueryTuple;
+use ts_core::store::Store;
+use ts_core::tuple::Tuple;
+use ts_core::vec_store::VecStore;
 
 use system::Logger;
 
