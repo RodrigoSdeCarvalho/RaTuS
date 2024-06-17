@@ -8,7 +8,7 @@ pub struct Client {
     size_url: Url,
     write_url: Url,
     read_url: Url,
-    take_url: Url,
+    get_url: Url,
     http_client: reqwest::Client,
 }
 
@@ -58,10 +58,10 @@ impl Client {
         }
     }
 
-    pub async fn take(&self, tuple: &QueryTuple) -> Result<Option<Tuple>> {
+    pub async fn get(&self, tuple: &QueryTuple) -> Result<Option<Tuple>> {
         let response = self
             .http_client
-            .post(self.take_url.clone())
+            .post(self.get_url.clone())
             .body(serde_json::to_string(tuple)?)
             .send()
             .await?;
@@ -79,14 +79,14 @@ impl Builder {
         let base_server = Url::parse(server)?;
         let size_url = base_server.join("size")?;
         let read_url = base_server.join("read")?;
-        let take_url = base_server.join("take")?;
+        let get_url = base_server.join("get")?;
         let write_url = base_server.join("write")?;
 
         Ok(Client {
             http_client: reqwest::Client::new(),
             size_url,
             read_url,
-            take_url,
+            get_url,
             write_url,
         })
     }

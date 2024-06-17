@@ -6,5 +6,5 @@ pub(crate) enum Command {
     Size,
     Write(Tuple),
     Read(QueryTuple),
-    Take(QueryTuple),
+    Get(QueryTuple),
 }

@@ -34,8 +34,8 @@ pub(crate) fn spawn_tuple_space_handler(
                     Ok(tuple_option) => CommandResult::Read(tuple_option),
                     Err(error) => CommandResult::Error(error.into()),
                 },
-                Command::Take(query_tuple) => match tuple_store.get(&query_tuple) {
-                    Ok(tuple_option) => CommandResult::Take(tuple_option),
+                Command::Get(query_tuple) => match tuple_store.get(&query_tuple) {
+                    Ok(tuple_option) => CommandResult::Get(tuple_option),
                     Err(error) => CommandResult::Error(error.into()),
                 },
             };
@@ -142,13 +142,13 @@ pub(crate) async fn read(
     }
 }
 
-pub(crate) async fn take(
+pub(crate) async fn get(
     query_tuple: QueryTuple,
     command_tx: CommandSend,
 ) -> std::result::Result<Box<dyn warp::Reply>, Infallible> {
     let (response_tx, response_rx) = oneshot::channel();
     match command_tx
-        .send((Command::Take(query_tuple), response_tx))
+        .send((Command::Get(query_tuple), response_tx))
         .await
     {
         Ok(_) => (),
@@ -158,11 +158,11 @@ pub(crate) async fn take(
         }
     }
     match response_rx.await {
-        Ok(CommandResult::Take(Some(tuple))) => {
+        Ok(CommandResult::Get(Some(tuple))) => {
             Logger::info(&format!("Tuple found {:?}", tuple), true);
             Ok(Box::new(warp::reply::json(&tuple)))
         }
-        Ok(CommandResult::Take(None)) => {
+        Ok(CommandResult::Get(None)) => {
             Logger::info("Tuple not found", true);
             Ok(Box::new(StatusCode::NOT_FOUND))
         }

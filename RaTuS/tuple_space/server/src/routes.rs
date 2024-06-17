@@ -6,7 +6,7 @@ use warp::Filter;
 const SIZE_PATH: &str = "size";
 const WRITE_PATH: &str = "write";
 const READ_PATH: &str = "read";
-const TAKE_PATH: &str = "take";
+const GET_PATH: &str = "get";
 
 fn with_command_tx(
     command_tx: CommandSend,
@@ -43,14 +43,14 @@ fn read(
         .and_then(handlers::read)
 }
 
-fn take(
+fn get(
     command_tx: CommandSend,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path(TAKE_PATH)
+    warp::path(GET_PATH)
         .and(warp::post())
         .and(warp::body::json())
         .and(with_command_tx(command_tx))
-        .and_then(handlers::take)
+        .and_then(handlers::get)
 }
 
 pub(crate) fn tuple_routes(
@@ -59,5 +59,5 @@ pub(crate) fn tuple_routes(
     size(command_tx.clone())
         .or(write(command_tx.clone()))
         .or(read(command_tx.clone()))
-        .or(take(command_tx))
+        .or(get(command_tx))
 }

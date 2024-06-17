@@ -6,6 +6,6 @@ pub(crate) enum CommandResult {
     Size(usize),
     Write,
     Read(Option<Tuple>),
-    Take(Option<Tuple>),
+    Get(Option<Tuple>),
     Error(Error),
 }

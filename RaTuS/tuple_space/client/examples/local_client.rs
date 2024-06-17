@@ -22,11 +22,11 @@ async fn main() {
 
     Logger::info(&format!("Size: {}", client.size().await.unwrap()), true);
 
-    let take_tuple = client.take(&query_tuple).await.unwrap().unwrap();
-    Logger::info(&format!("Take: {}", take_tuple), true);
+    let get_tuple = client.get(&query_tuple).await.unwrap().unwrap();
+    Logger::info(&format!("Get: {}", get_tuple), true);
 
     Logger::info(&format!("Size: {}", client.size().await.unwrap()), true);
 
-    let no_tuple = client.take(&query_tuple).await.unwrap();
-    Logger::info(&format!("Take: {:?}", no_tuple), true);
+    let no_tuple = client.get(&query_tuple).await.unwrap();
+    Logger::info(&format!("Get: {:?}", no_tuple), true);
 }

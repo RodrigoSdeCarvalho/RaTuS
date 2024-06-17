@@ -54,20 +54,20 @@ mod tests {
             Ok(())
         });
     
-        let mut taker_mutex_store = mutex_store.clone();
-        let taker_thread: JoinHandle<Result<()>> = thread::spawn(move || {
-            Logger::info("Spawning Taker", true);
+        let mut getter_mutex_store = mutex_store.clone();
+        let getter_thread: JoinHandle<Result<()>> = thread::spawn(move || {
+            Logger::info("Spawning getter", true);
             let mut num_tuples = 0;
             let query_tuple = QueryTuple::builder().any_integer().any_integer().build();
-            let taker_sleep = time::Duration::from_millis(110);
+            let getter_sleep = time::Duration::from_millis(110);
     
-            while let Some(tuple) = taker_mutex_store.get(&query_tuple)? {
-                Logger::info(&format!("Taker: Took: {:?}", tuple), true);
+            while let Some(tuple) = getter_mutex_store.get(&query_tuple)? {
+                Logger::info(&format!("getter: Took: {:?}", tuple), true);
                 num_tuples += 1;
-                thread::sleep(taker_sleep);
+                thread::sleep(getter_sleep);
             }
     
-            Logger::info(&format!("Taker: Tuple space empty! I took {} tuples.", num_tuples), true);
+            Logger::info(&format!("getter: Tuple space empty! I took {} tuples.", num_tuples), true);
             Ok(())
         });
     
@@ -93,8 +93,8 @@ mod tests {
         if let Err(_) = writer_2_thread.join() {
             panic!("Writer 2 panic")
         };
-        if let Err(_) = taker_thread.join() {
-            panic!("Taker panic")
+        if let Err(_) = getter_thread.join() {
+            panic!("getter panic")
         };
         if let Err(_) = reader_thread.join() {
             panic!("Reader panic")
