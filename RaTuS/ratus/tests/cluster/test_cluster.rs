@@ -172,12 +172,12 @@ async fn test_cluster() -> anyhow::Result<()> {
     // --- Try to write some application data through the leader.
 
     println!("=== write `foo=bar`");
-    let _x = client
+    let y = client
         .write(&Request::Set {
             tuple: Tuple::builder().string("Number").integer(5).build(),
         })
         .await?;
-
+    println!("y: {:?}", y);
     // --- Wait for a while to let the replication get done.
 
     tokio::time::sleep(Duration::from_millis(1_000)).await;
@@ -277,8 +277,16 @@ async fn test_cluster() -> anyhow::Result<()> {
 
     println!("=== read `foo=zoo` to node-3");
     let got = client3.read(&ReadRequest{
-        query: Tuple::query().string("Number").integer(6).build(),
+        query: Tuple::query().string("Number").integer(10).build(),
     }).await?;
     println!("got: {:?}", got);
+
+    let got = client3.get(&Request::Get {
+        query: Tuple::query().string("Number").integer(7).build(),
+    }).await?;
+    println!("got: {:?}", got);
+    let gotten_tuple = got.data.value;
+    println!("gotten_tuple: {:?}", gotten_tuple);
+
     Ok(())
 }

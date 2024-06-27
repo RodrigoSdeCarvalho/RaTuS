@@ -21,10 +21,13 @@ use tokio::sync::RwLock;
 
 use ts_core::{
     store::Store,
-    vec_store::VecStore as TupleStore,
+    vec_store::VecStore,
+    mutex_store::MutexStore,
     tuple::Tuple,
     query_tuple::QueryTuple,
 };
+
+pub type TupleStore = MutexStore<VecStore>;
 
 pub mod log_store;
 
@@ -164,12 +167,6 @@ impl RaftStateMachine<TypeConfig> for Arc<StateMachineStore> {
             match entry.payload {
                 EntryPayload::Blank => res.push(Response { value: None }),
                 EntryPayload::Normal(ref req) => match req {
-                    Request::Set { tuple } => {
-                        let _ = sm.data.write(tuple);
-                        res.push(Response {
-                            value: Some(tuple.clone()),
-                        })
-                    },
                     Request::Get { query } => {
                         let value = sm.data.get(query);
                         let response = match value {
@@ -177,6 +174,12 @@ impl RaftStateMachine<TypeConfig> for Arc<StateMachineStore> {
                             Err(_) => Response { value: None },
                         };
                         res.push(response);
+                    },
+                    Request::Set { tuple } => {
+                        let _ = sm.data.write(tuple);
+                        res.push(Response {
+                            value: Some(tuple.clone()),
+                        })
                     },
                 },
                 EntryPayload::Membership(ref mem) => {

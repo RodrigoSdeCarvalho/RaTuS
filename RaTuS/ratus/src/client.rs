@@ -69,8 +69,10 @@ impl ExampleClient {
     /// will be applied to state machine.
     ///
     /// The result of applying the request will be returned.
-    pub async fn get(&self, req: &Request) -> Result<Response, typ::RPCError<typ::ClientWriteError>> {
-        self.do_send_rpc_to_leader("get", Some(req)).await
+    pub async fn get(&self, req: &Request) -> Result<typ::ClientWriteResponse, typ::RPCError<typ::ClientWriteError>> {
+        let vars = self.do_send_rpc_to_leader("get", Some(req)).await;
+        println!("vars: {:?}", vars);
+        return vars;
     }
 
     // /// Consistent Read value by key, in an inconsistent mode.

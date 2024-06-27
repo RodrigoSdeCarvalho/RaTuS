@@ -1,10 +1,12 @@
+use serde::{Deserialize, Serialize};
+
 use crate::query_tuple::QueryTuple;
 use crate::result::Result;
 use crate::store::Store;
 use crate::tuple::Tuple;
 use std::sync::{Arc, Mutex};
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct MutexStore<S: Store> {
     store: Arc<Mutex<S>>,
 }
