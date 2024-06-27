@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 pub enum Error {
     MutexPoisonError,
     NonConcreteTuple(Tuple),
+    NotFound,
 }
 
 impl<S> From<std::sync::PoisonError<std::sync::MutexGuard<'_, S>>> for Error

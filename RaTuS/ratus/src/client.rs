@@ -12,10 +12,13 @@ use serde::de::DeserializeOwned;
 use serde::Deserialize;
 use serde::Serialize;
 use tokio::time::timeout;
+use ts_core::tuple::Tuple;
 
+use crate::store::Response;
 use crate::typ;
 use crate::NodeId;
 use crate::Request;
+use crate::api::ReadRequest;
 use crate::TypeConfig;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -54,16 +57,28 @@ impl ExampleClient {
     /// Read value by key, in an inconsistent mode.
     ///
     /// This method may return stale value because it does not force to read on a legal leader.
-    pub async fn read(&self, req: &String) -> Result<String, typ::RPCError> {
-        self.do_send_rpc_to_leader("read", Some(req)).await
+    pub async fn read(&self, req: &ReadRequest) -> Result<Option<Tuple>, typ::RPCError> {
+        let val = self.do_send_rpc_to_leader("read", Some(req)).await;
+        println!("val: {:?}", val);
+        return val;
     }
 
-    /// Consistent Read value by key, in an inconsistent mode.
+    /// Submit a write request to the raft cluster.
     ///
-    /// This method MUST return consistent value or CheckIsLeaderError.
-    pub async fn consistent_read(&self, req: &String) -> Result<String, typ::RPCError<typ::CheckIsLeaderError>> {
-        self.do_send_rpc_to_leader("consistent_read", Some(req)).await
+    /// The request will be processed by raft protocol: it will be replicated to a quorum and then
+    /// will be applied to state machine.
+    ///
+    /// The result of applying the request will be returned.
+    pub async fn get(&self, req: &Request) -> Result<Response, typ::RPCError<typ::ClientWriteError>> {
+        self.do_send_rpc_to_leader("get", Some(req)).await
     }
+
+    // /// Consistent Read value by key, in an inconsistent mode.
+    // ///
+    // /// This method MUST return consistent value or CheckIsLeaderError.
+    // pub async fn consistent_read(&self, req: &ReadRequest) -> Result<Option<Tuple>, typ::RPCError<typ::CheckIsLeaderError>> {
+    //     self.do_send_rpc_to_leader("consistent_read", Some(req)).await
+    // }
 
     // --- Cluster management API
 

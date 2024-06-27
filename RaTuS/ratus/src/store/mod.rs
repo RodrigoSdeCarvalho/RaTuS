@@ -1,4 +1,3 @@
-use std::collections::BTreeMap;
 use std::fmt::Debug;
 use std::io::Cursor;
 use std::sync::atomic::AtomicU64;
@@ -20,6 +19,13 @@ use serde::Deserialize;
 use serde::Serialize;
 use tokio::sync::RwLock;
 
+use ts_core::{
+    store::Store,
+    vec_store::VecStore as TupleStore,
+    tuple::Tuple,
+    query_tuple::QueryTuple,
+};
+
 pub mod log_store;
 
 use crate::NodeId;
@@ -35,7 +41,8 @@ pub type LogStore = log_store::LogStore<TypeConfig>;
  */
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Request {
-    Set { key: String, value: String },
+    Set { tuple: Tuple},
+    Get { query: QueryTuple },
 }
 
 /**
@@ -48,7 +55,7 @@ pub enum Request {
  */
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Response {
-    pub value: Option<String>,
+    pub value: Option<Tuple>,
 }
 
 #[derive(Debug)]
@@ -69,7 +76,7 @@ pub struct StateMachineData {
     pub last_membership: StoredMembership<TypeConfig>,
 
     /// Application data.
-    pub data: BTreeMap<String, String>,
+    pub data: TupleStore
 }
 
 /// Defines a state machine for the Raft cluster. This state machine represents a copy of the
@@ -157,12 +164,20 @@ impl RaftStateMachine<TypeConfig> for Arc<StateMachineStore> {
             match entry.payload {
                 EntryPayload::Blank => res.push(Response { value: None }),
                 EntryPayload::Normal(ref req) => match req {
-                    Request::Set { key, value } => {
-                        sm.data.insert(key.clone(), value.clone());
+                    Request::Set { tuple } => {
+                        let _ = sm.data.write(tuple);
                         res.push(Response {
-                            value: Some(value.clone()),
+                            value: Some(tuple.clone()),
                         })
-                    }
+                    },
+                    Request::Get { query } => {
+                        let value = sm.data.get(query);
+                        let response = match value {
+                            Ok(v) => Response { value: v },
+                            Err(_) => Response { value: None },
+                        };
+                        res.push(response);
+                    },
                 },
                 EntryPayload::Membership(ref mem) => {
                     sm.last_membership = StoredMembership::new(Some(entry.log_id), mem.clone());

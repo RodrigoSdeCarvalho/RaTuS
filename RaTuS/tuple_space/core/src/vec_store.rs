@@ -1,9 +1,11 @@
+use serde::{Deserialize, Serialize};
+
 use crate::query_tuple::QueryTuple;
 use crate::result::Result;
 use crate::store::Store;
 use crate::tuple::Tuple;
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct VecStore {
     inner: Vec<Option<Tuple>>,
     tuple_count: usize,
