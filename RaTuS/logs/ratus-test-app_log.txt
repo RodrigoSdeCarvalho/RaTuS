@@ -1,0 +1,60 @@
+ratus-test-app::["INFO"] 2024-06-30 23:40:43 - Raft cluster client created for node 1 at 127.0.0.1:21001
+ratus-test-app::["INFO"] 2024-06-30 23:40:43 - Raft cluster client initialized
+ratus-test-app::["INFO"] 2024-06-30 23:40:43 - Cluster metrics: RaftMetrics { running_state: Ok(()), id: 1, current_term: 1, vote: Vote { leader_id: LeaderId { term: 1, node_id: 1 }, committed: true }, last_log_index: Some(5), last_applied: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), snapshot: None, purged: None, state: Leader, current_leader: Some(1), millis_since_quorum_ack: Some(1), membership_config: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), membership: Membership { configs: [{1, 2, 3}], nodes: {1: BasicNode { addr: "127.0.0.1:21001" }, 2: BasicNode { addr: "127.0.0.1:21002" }, 3: BasicNode { addr: "127.0.0.1:21003" }} } }, replication: Some({1: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), 2: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), 3: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 })}) }
+ratus-test-app::["INFO"] 2024-06-30 23:40:43 - Leader: Some(1)
+ratus-test-app::["TRACE"] 2024-06-30 23:40:43 - Writing tuple to cluster: Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] }
+ratus-test-app::["INFO"] 2024-06-30 23:40:43 - Tuple written to cluster
+ratus-test-app::["TRACE"] 2024-06-30 23:40:43 - Sleeping for 1 second to wait for replication
+ratus-test-app::["INFO"] 2024-06-30 23:40:44 - Read tuple from node 2: Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] })
+ratus-test-app::["INFO"] 2024-06-30 23:40:44 - Read tuple from node 3: Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] })
+ratus-test-app::["TRACE"] 2024-06-30 23:40:44 - Writing tuple to cluster: Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] }
+ratus-test-app::["INFO"] 2024-06-30 23:40:44 - Tuple written to cluster
+ratus-test-app::["TRACE"] 2024-06-30 23:40:44 - Sleeping for 1 second to wait for replication
+ratus-test-app::["INFO"] 2024-06-30 23:40:45 - Read tuple from node 2: Some(Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] })
+ratus-test-app::["INFO"] 2024-06-30 23:40:45 - Read tuple from node 1: Some(Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] })
+ratus-test-app::["TRACE"] 2024-06-30 23:40:45 - Removing tuple from cluster: QueryTuple { query_tuple: [ExactString("Number"), ExactInteger(5), AnyBoolean] }
+ratus-test-app::["INFO"] 2024-06-30 23:40:45 - Removed tuple from cluster: Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] })
+ratus-test-app::["TRACE"] 2024-06-30 23:40:45 - Sleeping for 1 second to wait for replication
+ratus-test-app::["INFO"] 2024-06-30 23:40:46 - Read tuple from node 2: None
+ratus-test-app::["INFO"] 2024-06-30 23:40:46 - Read tuple from node 3: None
+ratus-test-app::["INFO"] 2024-06-30 23:40:46 - Kill the leader node to test fault tolerance
+ratus-test-app::["INFO"] 2024-06-30 23:40:46 - Press Enter to continue
+ratus-test-app::["INFO"] 2024-06-30 23:40:55 - Node 1 is down as expected
+ratus-test-app::["INFO"] 2024-06-30 23:40:55 - Cluster metrics: RaftMetrics { running_state: Ok(()), id: 2, current_term: 1, vote: Vote { leader_id: LeaderId { term: 1, node_id: 1 }, committed: true }, last_log_index: Some(8), last_applied: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 8 }), snapshot: None, purged: None, state: Follower, current_leader: Some(1), millis_since_quorum_ack: None, membership_config: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), membership: Membership { configs: [{1, 2, 3}], nodes: {1: BasicNode { addr: "127.0.0.1:21001" }, 2: BasicNode { addr: "127.0.0.1:21002" }, 3: BasicNode { addr: "127.0.0.1:21003" }} } }, replication: None }
+ratus-test-app::["INFO"] 2024-06-30 23:40:55 - New Elected Leader: Some(1)
+ratus-test-app::["INFO"] 2024-06-30 23:40:55 - Testing all operations again to assure the fault tolerance
+ratus-test-app::["TRACE"] 2024-06-30 23:40:55 - Writing tuple to cluster: Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] }
+ratus-test-app::["INFO"] 2024-06-30 23:45:37 - Raft cluster client created for node 1 at 127.0.0.1:21001
+ratus-test-app::["INFO"] 2024-06-30 23:45:37 - Raft cluster client initialized
+ratus-test-app::["INFO"] 2024-06-30 23:45:37 - Cluster metrics: RaftMetrics { running_state: Ok(()), id: 1, current_term: 1, vote: Vote { leader_id: LeaderId { term: 1, node_id: 1 }, committed: true }, last_log_index: Some(5), last_applied: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), snapshot: None, purged: None, state: Leader, current_leader: Some(1), millis_since_quorum_ack: Some(0), membership_config: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), membership: Membership { configs: [{1, 2, 3}], nodes: {1: BasicNode { addr: "127.0.0.1:21001" }, 2: BasicNode { addr: "127.0.0.1:21002" }, 3: BasicNode { addr: "127.0.0.1:21003" }} } }, replication: Some({1: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), 2: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), 3: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 })}) }
+ratus-test-app::["INFO"] 2024-06-30 23:45:37 - Leader: Some(1)
+ratus-test-app::["TRACE"] 2024-06-30 23:45:37 - Writing tuple to cluster: Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] }
+ratus-test-app::["INFO"] 2024-06-30 23:45:37 - Tuple written to cluster
+ratus-test-app::["TRACE"] 2024-06-30 23:45:37 - Sleeping for 1 second to wait for replication
+ratus-test-app::["INFO"] 2024-06-30 23:45:38 - Read tuple from node 2: Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] })
+ratus-test-app::["INFO"] 2024-06-30 23:45:38 - Read tuple from node 3: Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] })
+ratus-test-app::["TRACE"] 2024-06-30 23:45:38 - Writing tuple to cluster: Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] }
+ratus-test-app::["INFO"] 2024-06-30 23:45:38 - Tuple written to cluster
+ratus-test-app::["TRACE"] 2024-06-30 23:45:38 - Sleeping for 1 second to wait for replication
+ratus-test-app::["INFO"] 2024-06-30 23:45:39 - Read tuple from node 2: Some(Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] })
+ratus-test-app::["INFO"] 2024-06-30 23:45:39 - Read tuple from node 1: Some(Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] })
+ratus-test-app::["TRACE"] 2024-06-30 23:45:39 - Removing tuple from cluster: QueryTuple { query_tuple: [ExactString("Number"), ExactInteger(5), AnyBoolean] }
+ratus-test-app::["INFO"] 2024-06-30 23:45:39 - Removed tuple from cluster: Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] })
+ratus-test-app::["TRACE"] 2024-06-30 23:45:39 - Sleeping for 1 second to wait for replication
+ratus-test-app::["INFO"] 2024-06-30 23:45:40 - Read tuple from node 2: None
+ratus-test-app::["INFO"] 2024-06-30 23:45:40 - Read tuple from node 3: None
+ratus-test-app::["INFO"] 2024-06-30 23:45:40 - Kill the leader node to test fault tolerance
+ratus-test-app::["INFO"] 2024-06-30 23:45:40 - Press Enter to continue
+ratus-test-app::["INFO"] 2024-06-30 23:45:50 - Node 1 is down as expected
+ratus-test-app::["INFO"] 2024-06-30 23:45:50 - Testing all operations again to assure the fault tolerance
+ratus-test-app::["TRACE"] 2024-06-30 23:45:50 - Writing tuple to cluster to force new election: Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] }
+ratus-test-app::["INFO"] 2024-06-30 23:45:50 - Tuple written to cluster
+ratus-test-app::["INFO"] 2024-06-30 23:45:50 - Cluster metrics: RaftMetrics { running_state: Ok(()), id: 3, current_term: 2, vote: Vote { leader_id: LeaderId { term: 2, node_id: 3 }, committed: true }, last_log_index: Some(10), last_applied: Some(LogId { leader_id: LeaderId { term: 2, node_id: 3 }, index: 10 }), snapshot: None, purged: None, state: Leader, current_leader: Some(3), millis_since_quorum_ack: Some(1), membership_config: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), membership: Membership { configs: [{1, 2, 3}], nodes: {1: BasicNode { addr: "127.0.0.1:21001" }, 2: BasicNode { addr: "127.0.0.1:21002" }, 3: BasicNode { addr: "127.0.0.1:21003" }} } }, replication: Some({1: None, 2: Some(LogId { leader_id: LeaderId { term: 2, node_id: 3 }, index: 10 }), 3: Some(LogId { leader_id: LeaderId { term: 2, node_id: 3 }, index: 10 })}) }
+ratus-test-app::["INFO"] 2024-06-30 23:45:50 - New Elected Leader: Some(3)
+ratus-test-app::["TRACE"] 2024-06-30 23:45:50 - Sleeping for 1 second to wait for replication
+ratus-test-app::["INFO"] 2024-06-30 23:45:51 - Read tuple from node 2: Some(Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] })
+ratus-test-app::["INFO"] 2024-06-30 23:45:51 - Read tuple from node 3: Some(Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] })
+ratus-test-app::["TRACE"] 2024-06-30 23:45:51 - Removing tuple from cluster: QueryTuple { query_tuple: [ExactString("Number"), ExactInteger(7), AnyBoolean, AnyFloat] }
+ratus-test-app::["INFO"] 2024-06-30 23:45:51 - Removed tuple from cluster: Some(Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] })
+ratus-test-app::["TRACE"] 2024-06-30 23:45:51 - Sleeping for 1 second to wait for replication
+ratus-test-app::["INFO"] 2024-06-30 23:45:52 - Read tuple from node 2: None

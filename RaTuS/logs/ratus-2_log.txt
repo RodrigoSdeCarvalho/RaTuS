@@ -1,0 +1,26 @@
+ratus-2::["INFO"] 2024-06-30 23:40:35 - Starting RaTuS node
+ratus-2::["INFO"] 2024-06-30 23:40:44 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), AnyInteger, AnyBoolean] } }
+ratus-2::["INFO"] 2024-06-30 23:40:44 - read response: Ok(Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] }))
+ratus-2::["INFO"] 2024-06-30 23:40:45 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Float"), ExactInteger(6), AnyFloat, AnyBoolean] } }
+ratus-2::["INFO"] 2024-06-30 23:40:45 - read response: Ok(Some(Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] }))
+ratus-2::["INFO"] 2024-06-30 23:40:46 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), ExactInteger(5), AnyBoolean] } }
+ratus-2::["INFO"] 2024-06-30 23:40:46 - read response: Ok(None)
+ratus-2::["INFO"] 2024-06-30 23:40:55 - metrics request
+ratus-2::["INFO"] 2024-06-30 23:40:55 - metrics response: Ok(RaftMetrics { running_state: Ok(()), id: 2, current_term: 1, vote: Vote { leader_id: LeaderId { term: 1, node_id: 1 }, committed: true }, last_log_index: Some(8), last_applied: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 8 }), snapshot: None, purged: None, state: Follower, current_leader: Some(1), millis_since_quorum_ack: None, membership_config: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), membership: Membership { configs: [{1, 2, 3}], nodes: {1: BasicNode { addr: "127.0.0.1:21001" }, 2: BasicNode { addr: "127.0.0.1:21002" }, 3: BasicNode { addr: "127.0.0.1:21003" }} } }, replication: None })
+ratus-2::["INFO"] 2024-06-30 23:40:55 - write request: Set { tuple: Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] } }
+ratus-2::["INFO"] 2024-06-30 23:40:55 - write response: Err(APIError(ForwardToLeader(ForwardToLeader { leader_id: Some(1), leader_node: Some(BasicNode { addr: "127.0.0.1:21001" }) })))
+ratus-2::["INFO"] 2024-06-30 23:40:57 - vote request: VoteRequest { vote: Vote { leader_id: LeaderId { term: 2, node_id: 3 }, committed: false }, last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 8 }) }
+ratus-2::["INFO"] 2024-06-30 23:40:57 - vote response: Ok(VoteResponse { vote: Vote { leader_id: LeaderId { term: 2, node_id: 3 }, committed: false }, vote_granted: true, last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 8 }) })
+ratus-2::["INFO"] 2024-06-30 23:45:31 - Starting RaTuS node
+ratus-2::["INFO"] 2024-06-30 23:45:38 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), AnyInteger, AnyBoolean] } }
+ratus-2::["INFO"] 2024-06-30 23:45:38 - read response: Ok(Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] }))
+ratus-2::["INFO"] 2024-06-30 23:45:39 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Float"), ExactInteger(6), AnyFloat, AnyBoolean] } }
+ratus-2::["INFO"] 2024-06-30 23:45:39 - read response: Ok(Some(Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] }))
+ratus-2::["INFO"] 2024-06-30 23:45:40 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), ExactInteger(5), AnyBoolean] } }
+ratus-2::["INFO"] 2024-06-30 23:45:40 - read response: Ok(None)
+ratus-2::["INFO"] 2024-06-30 23:45:49 - vote request: VoteRequest { vote: Vote { leader_id: LeaderId { term: 2, node_id: 3 }, committed: false }, last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 8 }) }
+ratus-2::["INFO"] 2024-06-30 23:45:49 - vote response: Ok(VoteResponse { vote: Vote { leader_id: LeaderId { term: 2, node_id: 3 }, committed: false }, vote_granted: true, last_log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 8 }) })
+ratus-2::["INFO"] 2024-06-30 23:45:50 - write request: Set { tuple: Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] } }
+ratus-2::["INFO"] 2024-06-30 23:45:50 - write response: Err(APIError(ForwardToLeader(ForwardToLeader { leader_id: Some(3), leader_node: Some(BasicNode { addr: "127.0.0.1:21003" }) })))
+ratus-2::["INFO"] 2024-06-30 23:45:52 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), ExactInteger(7), AnyBoolean, AnyFloat] } }
+ratus-2::["INFO"] 2024-06-30 23:45:52 - read response: Ok(None)

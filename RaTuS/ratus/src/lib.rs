@@ -1,27 +1,19 @@
-#![allow(clippy::uninlined_format_args)]
-#![deny(unused_qualifications)]
+use std::{io::Cursor, sync::Arc};
 
-use std::io::Cursor;
-use std::sync::Arc;
-
-use actix_web::middleware;
-use actix_web::middleware::Logger;
-use actix_web::web::Data;
-use actix_web::HttpServer;
+use actix_web::{middleware::{self, Logger}, web::Data, HttpServer};
 use openraft::Config;
 
-use crate::app::App;
-use crate::network::api;
-use crate::network::management;
-use crate::network::raft;
-use crate::network::Network;
-use crate::store::Request;
-use crate::store::Response;
+use crate::{
+    app::App, 
+    network::{api, management, raft, Network}, 
+    store::{Request, Response}
+};
 
 pub mod app;
 pub mod client;
 pub mod network;
 pub mod store;
+
 #[cfg(test)] mod test;
 
 pub type NodeId = u64;

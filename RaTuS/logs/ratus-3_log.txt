@@ -1,0 +1,24 @@
+ratus-3::["INFO"] 2024-06-30 23:40:38 - Starting RaTuS node
+ratus-3::["INFO"] 2024-06-30 23:40:44 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), AnyInteger, AnyBoolean] } }
+ratus-3::["INFO"] 2024-06-30 23:40:44 - read response: Ok(Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] }))
+ratus-3::["INFO"] 2024-06-30 23:40:44 - write request: Set { tuple: Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] } }
+ratus-3::["INFO"] 2024-06-30 23:40:44 - write response: Err(APIError(ForwardToLeader(ForwardToLeader { leader_id: Some(1), leader_node: Some(BasicNode { addr: "127.0.0.1:21001" }) })))
+ratus-3::["INFO"] 2024-06-30 23:40:46 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), ExactInteger(5), AnyBoolean] } }
+ratus-3::["INFO"] 2024-06-30 23:40:46 - read response: Ok(None)
+ratus-3::["INFO"] 2024-06-30 23:45:32 - Starting RaTuS node
+ratus-3::["INFO"] 2024-06-30 23:45:38 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), AnyInteger, AnyBoolean] } }
+ratus-3::["INFO"] 2024-06-30 23:45:38 - read response: Ok(Some(Tuple { tuple: [String("Number"), Integer(5), Boolean(true)] }))
+ratus-3::["INFO"] 2024-06-30 23:45:38 - write request: Set { tuple: Tuple { tuple: [String("Float"), Integer(6), Float(3.14), Boolean(true)] } }
+ratus-3::["INFO"] 2024-06-30 23:45:38 - write response: Err(APIError(ForwardToLeader(ForwardToLeader { leader_id: Some(1), leader_node: Some(BasicNode { addr: "127.0.0.1:21001" }) })))
+ratus-3::["INFO"] 2024-06-30 23:45:40 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), ExactInteger(5), AnyBoolean] } }
+ratus-3::["INFO"] 2024-06-30 23:45:40 - read response: Ok(None)
+ratus-3::["INFO"] 2024-06-30 23:45:50 - write request: Set { tuple: Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] } }
+ratus-3::["INFO"] 2024-06-30 23:45:50 - write response: Ok(ClientWriteResponse { log_id: LogId { leader_id: LeaderId { term: 2, node_id: 3 }, index: 10 }, data: Response { value: Some(Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] }) }, membership: None })
+ratus-3::["INFO"] 2024-06-30 23:45:50 - metrics request
+ratus-3::["INFO"] 2024-06-30 23:45:50 - metrics response: Ok(RaftMetrics { running_state: Ok(()), id: 3, current_term: 2, vote: Vote { leader_id: LeaderId { term: 2, node_id: 3 }, committed: true }, last_log_index: Some(10), last_applied: Some(LogId { leader_id: LeaderId { term: 2, node_id: 3 }, index: 10 }), snapshot: None, purged: None, state: Leader, current_leader: Some(3), millis_since_quorum_ack: Some(1), membership_config: StoredMembership { log_id: Some(LogId { leader_id: LeaderId { term: 1, node_id: 1 }, index: 5 }), membership: Membership { configs: [{1, 2, 3}], nodes: {1: BasicNode { addr: "127.0.0.1:21001" }, 2: BasicNode { addr: "127.0.0.1:21002" }, 3: BasicNode { addr: "127.0.0.1:21003" }} } }, replication: Some({1: None, 2: Some(LogId { leader_id: LeaderId { term: 2, node_id: 3 }, index: 10 }), 3: Some(LogId { leader_id: LeaderId { term: 2, node_id: 3 }, index: 10 })}) })
+ratus-3::["INFO"] 2024-06-30 23:45:51 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), AnyInteger, AnyBoolean, AnyFloat] } }
+ratus-3::["INFO"] 2024-06-30 23:45:51 - read response: Ok(Some(Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] }))
+ratus-3::["INFO"] 2024-06-30 23:45:51 - read request: ReadRequest { query: QueryTuple { query_tuple: [ExactString("Number"), AnyInteger, AnyBoolean, AnyFloat] } }
+ratus-3::["INFO"] 2024-06-30 23:45:51 - read response: Ok(Some(Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] }))
+ratus-3::["INFO"] 2024-06-30 23:45:51 - get request: Get { query: QueryTuple { query_tuple: [ExactString("Number"), ExactInteger(7), AnyBoolean, AnyFloat] } }
+ratus-3::["INFO"] 2024-06-30 23:45:51 - get response: Ok(ClientWriteResponse { log_id: LogId { leader_id: LeaderId { term: 2, node_id: 3 }, index: 11 }, data: Response { value: Some(Tuple { tuple: [String("Number"), Integer(7), Boolean(true), Float(3.14)] }) }, membership: None })

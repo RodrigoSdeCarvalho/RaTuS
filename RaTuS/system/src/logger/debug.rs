@@ -1,6 +1,5 @@
 use std::fs::OpenOptions;
 use std::io::Write;
-use chrono::Local as time;
 
 use super::{ILogger, LoggerEssentials};
 use crate::{config::get_process_name, path::{join_root, Path, SysPath}};
@@ -15,12 +14,11 @@ impl ILogger for DebugLogger {}
 
 impl LoggerEssentials for DebugLogger {
     fn open() -> Self {
-        let timestamp = time::now().format("%Y-%m-%d_%H-%M-%S").to_string();
         let folder = join_root!("logs");
 
         return DebugLogger {
             folder,
-            file_name: format!("{}_log_{}.txt", get_process_name(), timestamp),
+            file_name: format!("{}_log.txt", get_process_name()),
         };
     }
 

@@ -1,19 +1,17 @@
-use actix_web::post;
-use actix_web::web::Data;
-use actix_web::web::Json;
-use actix_web::Responder;
-use openraft::raft::AppendEntriesRequest;
-use openraft::raft::InstallSnapshotRequest;
-use openraft::raft::VoteRequest;
+use actix_web::{post, web::{Data, Json}, Responder};
+use openraft::raft::{AppendEntriesRequest, InstallSnapshotRequest, VoteRequest};
 
-use crate::app::App;
-use crate::TypeConfig;
+use system::Logger;
+
+use crate::{app::App, TypeConfig};
 
 // --- Raft communication
 
 #[post("/raft-vote")]
 pub async fn vote(app: Data<App>, req: Json<VoteRequest<TypeConfig>>) -> actix_web::Result<impl Responder> {
+    Logger::info(format!("vote request: {:?}", req.0), true);
     let res = app.raft.vote(req.0).await;
+    Logger::info(format!("vote response: {:?}", res), true);
     Ok(Json(res))
 }
 
